@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOMO Lounge Bar | Official Executive Website</title>
+    
+    <!-- Google Fonts: Playfair for elegance, Inter for readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #ffffff;
+            --secondary: #a8a8a8;
+            --accent: #c5a059; /* Muted Gold */
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: rgba(255, 255, 255, 0.1);
+            --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Professional Preloader --- */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-bar {
+            width: 150px;
+            height: 1px;
+            background: var(--border);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            left: -100%;
+            animation: load 2s infinite;
+        }
+
+        @keyframes load {
+            0% { left: -100%; }
+            50% { left: 0; }
+            100% { left: 100%; }
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav.scrolled {
+            padding: 15px 50px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, var(--bg) 20%, transparent 100%);
+            z-index: 1;
+        }
+
+        .hero-img {
+            position: absolute;
+            right: 0; top: 0;
+            width: 60%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1574096079513-d8259312b785?q=80&w=2070&auto=format&fit=crop') center/cover;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            border-left: 2px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--border);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            background: transparent;
+            color: var(--accent);
+        }
+
+        /* --- Menu Section --- */
+        .section {
+            padding: 120px 10%;
+        }
+
+        .section-title {
+            margin-bottom: 80px;
+        }
+
+        .section-title span {
+            color: var(--accent);
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-top: 10px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+        }
+
+        .menu-category h3 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            color: var(--accent);
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            transform: translateX(10px);
+        }
+
+        .item-details h4 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .item-details p {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--surface);
+            padding: 80px 10% 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-about p {
+            color: var(--secondary);
+            max-width: 350px;
+        }
+
+        .footer-header {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .contact-info div {
+            margin-bottom: 15px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-info i { color: var(--accent); }
+
+        .copyright {
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--secondary);
+            letter-spacing: 1px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .hero { padding-top: 100px; height: auto; min-height: 80vh; }
+            .hero-img { display: none; }
+            .hero-overlay { background: var(--bg); }
+            .footer-grid { grid-template-columns: 1fr; }
+            nav { padding: 20px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="logo">KOMO<span>.</span></div>
+            <div class="loader-bar"><div class="loader-progress"></div></div>
+        </div>
+    </div>
+
+    <nav id="main-nav">
+        <a href="#" class="logo">KOMO<span>.</span></a>
+        <div class="nav-links">
+            <a href="#menu">Menu</a>
+            <a href="https://nukedbyunknown.github.io/Sharri-Resturant/" target="_blank">Sharri Restaurant</a>
+            <a href="#contact">Kontakt</a>
+        </div>
+        <a href="tel:048589002" class="btn" style="padding: 10px 25px; font-size: 0.6rem;">Rezervo</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-img"></div>
+        <div class="hero-content">
+            <h1>Ekselencë në çdo detaj.</h1>
+            <p>Mirësevini në KOMO Lounge Bar, ku atmosfera bashkëkohore takohet me shërbimin premium. Një hapësirë e dedikuar për ata që kërkojnë më të mirën.</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn">Shiko Menunë</a>
+                <a href="https://sharritech.github.io/Sharritech/index.html" target="_blank" class="btn btn-outline">SharriTech</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="menu">
+        <div class="section-title">
+            <span>Përzgjedhja Jonë</span>
+            <h2>Menuja e Kuruar</h2>
+        </div>
+
+        <div class="menu-grid">
+            <!-- Spirits -->
+            <div class="menu-category">
+                <h3>Pijet Premium</h3>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Jack Daniel's</h4>
+                        <p>Whiskey / 40ml</p>
+                    </div>
+                    <div class="item-price">€3.50</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Jägermeister</h4>
+                        <p>Herbal Liqueur / Shot</p>
+                    </div>
+                    <div class="item-price">€2.50</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Red Bull</h4>
+                        <p>Energy Drink</p>
+                    </div>
+                    <div class="item-price">€2.50</div>
+                </div>
+            </div>
+
+            <!-- Coffee -->
+            <div class="menu-category">
+                <h3>Kafetë</h3>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Macchiato</h4>
+                        <p>Small / Large</p>
+                    </div>
+                    <div class="item-price">€0.50</div>
+                </div>
+                <div class="item-details">
+                    <div class="menu-item">
+                        <div class="item-details">
+                            <h4>Espresso</h4>
+                            <p>Italian Roast</p>
+                        </div>
+                        <div class="item-price">€0.50</div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Cappuccino</h4>
+                        <p>Classic Foam</p>
+                    </div>
+                    <div class="item-price">€0.50</div>
+                </div>
+            </div>
+
+            <!-- Soft Drinks -->
+            <div class="menu-category">
+                <h3>Pijet e Ftohta</h3>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Coca Cola / Fanta</h4>
+                        <p>0.33L</p>
+                    </div>
+                    <div class="item-price">€1.00</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Schweppes</h4>
+                        <p>Tonic / Bitter Lemon</p>
+                    </div>
+                    <div class="item-price">€1.00</div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-details">
+                        <h4>Ujë Natyral</h4>
+                        <p>Still / Sparkling</p>
+                    </div>
+                    <div class="item-price">€0.70</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-about">
+                <span class="logo footer-logo">KOMO<span>.</span></span>
+                <p>Një standard i ri i jetës së natës dhe relaksit në Komoran. Eksperiencë unike në çdo vizitë.</p>
+            </div>
+
+            <div class="footer-links">
+                <h5 class="footer-header">Partnerët</h5>
+                <ul style="list-style: none;">
+                    <li style="margin-bottom: 10px;"><a href="https://nukedbyunknown.github.io/Sharri-Resturant/" target="_blank" style="color: var(--secondary); text-decoration: none;">Sharri Restaurant</a></li>
+                    <li style="margin-bottom: 10px;"><a href="https://sharritech.github.io/Sharritech/index.html" target="_blank" style="color: var(--secondary); text-decoration: none;">SharriTech</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h5 class="footer-header">Lokacioni & Oraret</h5>
+                <div class="contact-info">
+                    <div><i class="fas fa-map-marker-alt"></i> Komoran, Rruga Nazmi Gashi</div>
+                    <div><i class="fas fa-phone"></i> 048 589 002</div>
+                    <div><i class="fas fa-clock"></i> Hën - Die: 06:00 - 23:00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 KOMO LOUNGE BAR. TË GJITHA TË DREJTAT TË REZERVUARA.
+        </div>
+    </footer>
+
+    <script>
+        // Preloader removal
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => preloader.style.display = 'none', 1000);
+            }, 1000);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
