@@ -3,521 +3,719 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOMO Lounge Bar | Official Executive Website</title>
+    <title>Sharri Restaurant | Eksperiencë Gastronomike</title>
     
-    <!-- Google Fonts: Playfair for elegance, Inter for readability -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <!-- External Resources (Whitelisted) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<section id="book">
+  <h2 class="section-title">Reserve a Table</h2>
+  <form id="bookForm" style="max-width:500px;margin:0 auto;text-align:center;">
+    <input type="text" name="name" placeholder="Your Name" required
+           style="padding:1rem;width:100%;margin-bottom:1rem;">
+    <input type="text" name="phone" placeholder="Contact Number" required
+           style="padding:1rem;width:100%;margin-bottom:1rem;">
+    <textarea name="message" placeholder="Any special requests?"
+              style="padding:1rem;width:100%;margin-bottom:1rem;"></textarea>
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</section>
+
+<script>
+document.getElementById("bookForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
+
+  const res = await fetch("/book", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  alert(result.success || result.error);
+});
+</script>
+
+
 
     <style>
         :root {
-            --primary: #ffffff;
-            --secondary: #a8a8a8;
-            --accent: #c5a059; /* Muted Gold */
-            --bg: #0a0a0a;
-            --surface: #141414;
-            --border: rgba(255, 255, 255, 0.1);
-            --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            --gold: #c9a55c;
+            --gold-light: #e8d4a8;
+            --gold-dark: #a88a3d;
+            --black: #0f0f0f;
+            --dark-grey: #1a1a1a;
+            --light-grey: #2a2a2a;
+            --cream: #f5f0e8;
+            --text-muted: #a89f91;
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass: rgba(15, 15, 15, 0.85);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            background-color: var(--bg);
-        }
-
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--primary);
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--black);
+            color: var(--cream);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* --- Professional Preloader --- */
-        #preloader {
+        /* Sophisticated Background */
+        .bg-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1s ease;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(201, 165, 92, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(201, 165, 92, 0.05) 0%, transparent 40%);
+            z-index: -1;
         }
 
-        .loader-content {
-            text-align: center;
-        }
-
-        .loader-bar {
-            width: 150px;
-            height: 1px;
-            background: var(--border);
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loader-progress {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: var(--accent);
-            left: -100%;
-            animation: load 2s infinite;
-        }
-
-        @keyframes load {
-            0% { left: -100%; }
-            50% { left: 0; }
-            100% { left: 100%; }
-        }
-
-        /* --- Navigation --- */
-        nav {
+        /* Navigation */
+        header {
             position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 30px 50px;
+            top: 0; width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+
+        header.scrolled {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(201, 165, 92, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            transition: var(--transition);
-        }
-
-        nav.scrolled {
-            padding: 15px 50px;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
         }
 
         .logo {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 5px;
             text-decoration: none;
-            color: var(--primary);
+            text-align: center;
         }
 
-        .logo span { color: var(--accent); }
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            line-height: 1;
+        }
+
+        .logo span {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            display: block;
+            margin-top: 4px;
+        }
 
         .nav-links {
             display: flex;
-            gap: 40px;
+            gap: 3rem;
+            list-style: none;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: var(--secondary);
-            font-size: 0.7rem;
-            font-weight: 600;
+            color: var(--cream);
+            font-size: 0.75rem;
+            font-weight: 500;
             letter-spacing: 2px;
-            text-transform: uppercase;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 0; height: 1px;
+            background: var(--gold);
             transition: var(--transition);
         }
 
-        .nav-links a:hover {
-            color: var(--accent);
-        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* --- Hero Section --- */
+        /* Hero Section */
         .hero {
             height: 100vh;
             display: flex;
             align-items: center;
-            padding: 0 10%;
+            justify-content: center;
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
 
-        .hero-overlay {
+        .hero-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, var(--bg) 20%, transparent 100%);
-            z-index: 1;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transform: scale(1.1);
+            animation: slowZoom 20s infinite alternate;
         }
 
-        .hero-img {
-            position: absolute;
-            right: 0; top: 0;
-            width: 60%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1574096079513-d8259312b785?q=80&w=2070&auto=format&fit=crop') center/cover;
-            z-index: 0;
+        @keyframes slowZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
 
         .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 600px;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
         }
 
         .hero-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 5rem);
-            line-height: 1.1;
-            margin-bottom: 20px;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
         }
 
-        .hero-content p {
-            color: var(--secondary);
-            font-size: 1.1rem;
-            margin-bottom: 40px;
-            border-left: 2px solid var(--accent);
-            padding-left: 20px;
+        .hero-divider {
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+            margin: 2rem auto;
         }
 
-        /* --- Buttons --- */
-        .btn {
+        .cta-button {
             display: inline-block;
-            padding: 18px 40px;
-            background: var(--accent);
-            color: #000;
+            padding: 1.2rem 3.5rem;
+            border: 1px solid var(--gold);
+            color: var(--gold);
             text-decoration: none;
-            font-weight: 600;
             font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            letter-spacing: 3px;
             transition: var(--transition);
+            background: transparent;
         }
 
-        .btn:hover {
-            background: var(--primary);
+        .cta-button:hover {
+            background: var(--gold);
+            color: var(--black);
             transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(201, 165, 92, 0.2);
         }
 
-        .btn-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 1px solid var(--border);
-            margin-left: 15px;
-        }
-
-        .btn-outline:hover {
-            border-color: var(--accent);
-            background: transparent;
-            color: var(--accent);
-        }
-
-        /* --- Menu Section --- */
-        .section {
-            padding: 120px 10%;
+        /* Menu Section */
+        .menu-section {
+            padding: 100px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .section-title {
-            margin-bottom: 80px;
-        }
-
-        .section-title span {
-            color: var(--accent);
-            font-size: 0.8rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 4rem;
         }
 
         .section-title h2 {
             font-family: 'Playfair Display', serif;
             font-size: 3rem;
-            margin-top: 10px;
+            color: var(--gold);
+            margin-bottom: 1rem;
         }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 60px;
-        }
-
-        .menu-category h3 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.9rem;
-            margin-bottom: 40px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-            color: var(--accent);
-        }
-
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            transition: var(--transition);
-        }
-
-        .menu-item:hover {
-            transform: translateX(10px);
-        }
-
-        .item-details h4 {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .item-details p {
-            font-size: 0.75rem;
-            color: var(--secondary);
+        .section-title p {
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            font-size: 0.8rem;
             text-transform: uppercase;
         }
 
-        .item-price {
-            font-weight: 600;
-            color: var(--accent);
+        /* Filter Tabs */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 5rem;
         }
 
-        /* --- Footer --- */
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+
+        .filter-btn.active {
+            color: var(--gold);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .menu-card {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(201, 165, 92, 0.1);
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-card:hover {
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .menu-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-info h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: var(--cream);
+        }
+
+        .menu-price {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .menu-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .menu-tag {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            color: var(--gold);
+            text-transform: uppercase;
+            border: 1px solid rgba(201, 165, 92, 0.3);
+            padding: 2px 8px;
+            width: fit-content;
+        }
+
+        /* Footer */
         footer {
-            background: var(--surface);
-            padding: 80px 10% 40px;
-            border-top: 1px solid var(--border);
+            background: var(--dark-grey);
+            padding: 80px 2rem 40px;
+            border-top: 1px solid rgba(201, 165, 92, 0.1);
         }
 
         .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: 2fr 1fr 1.5fr;
-            gap: 50px;
-            margin-bottom: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            margin-bottom: 4rem;
         }
 
-        .footer-logo {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .footer-about p {
-            color: var(--secondary);
-            max-width: 350px;
-        }
-
-        .footer-header {
-            font-size: 0.8rem;
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
             letter-spacing: 2px;
-            margin-bottom: 25px;
-            color: var(--accent);
-            text-transform: uppercase;
         }
 
-        .contact-info div {
-            margin-bottom: 15px;
-            color: var(--secondary);
+        .footer-col p, .footer-col a {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .footer-col a:hover { color: var(--gold); }
+
+        .social-icons {
             display: flex;
-            align-items: center;
-            gap: 15px;
+            gap: 1.5rem;
+            margin-top: 1rem;
         }
 
-        .contact-info i { color: var(--accent); }
+        .social-icons a {
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
 
         .copyright {
-            padding-top: 30px;
-            border-top: 1px solid var(--border);
             text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
             font-size: 0.7rem;
-            color: var(--secondary);
+            color: var(--text-muted);
             letter-spacing: 1px;
         }
 
-        /* --- Responsive --- */
-        @media (max-width: 992px) {
-            .hero { padding-top: 100px; height: auto; min-height: 80vh; }
-            .hero-img { display: none; }
-            .hero-overlay { background: var(--bg); }
-            .footer-grid { grid-template-columns: 1fr; }
-            nav { padding: 20px; }
-            .nav-links { display: none; }
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
         }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+            .hero-content h1 { font-size: 4rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .nav-container { padding: 0 1.5rem; }
+        }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="loader-content">
-            <div class="logo">KOMO<span>.</span></div>
-            <div class="loader-bar"><div class="loader-progress"></div></div>
-        </div>
-    </div>
+    <div class="bg-overlay"></div>
 
-    <nav id="main-nav">
-        <a href="#" class="logo">KOMO<span>.</span></a>
-        <div class="nav-links">
-            <a href="#menu">Menu</a>
-            <a href="https://nukedbyunknown.github.io/Sharri-Resturant/" target="_blank">Sharri Restaurant</a>
-            <a href="#contact">Kontakt</a>
-        </div>
-        <a href="tel:048589002" class="btn" style="padding: 10px 25px; font-size: 0.6rem;">Rezervo</a>
-    </nav>
+    <header id="main-header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+                <h1>SHARRI</h1>
+                <span>Restorant & Grill</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#menu">MENU</a></li>
+                <li><a href="#contact">KONTAKT</a></li>
+            </ul>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
 
     <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-img"></div>
+        <div class="hero-bg"></div>
         <div class="hero-content">
-            <h1>Ekselencë në çdo detaj.</h1>
-            <p>Mirësevini në KOMO Lounge Bar, ku atmosfera bashkëkohore takohet me shërbimin premium. Një hapësirë e dedikuar për ata që kërkojnë më të mirën.</p>
-            <div class="hero-btns">
-                <a href="#menu" class="btn">Shiko Menunë</a>
-                <a href="https://sharritech.github.io/Sharritech/index.html" target="_blank" class="btn btn-outline">SharriTech</a>
-            </div>
+            <h2>Mirësevini në</h2>
+            <h1>SHARRI</h1>
+            <div class="hero-divider"></div>
+            <p style="color: var(--text-muted); letter-spacing: 2px; margin-bottom: 2.5rem; font-weight: 300;">
+                TRADITA TAKON MODERNEN NË ÇDO SHIJE
+            </p>
+            <a href="#menu" class="cta-button">ZBULONI MENUNË</a>
         </div>
     </section>
 
-    <section class="section" id="menu">
+    <section class="menu-section" id="menu">
         <div class="section-title">
-            <span>Përzgjedhja Jonë</span>
-            <h2>Menuja e Kuruar</h2>
+            <p>Shije Autentike</p>
+            <h2>Menuja Jonë</h2>
         </div>
 
-        <div class="menu-grid">
-            <!-- Spirits -->
-            <div class="menu-category">
-                <h3>Pijet Premium</h3>
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Jack Daniel's</h4>
-                        <p>Whiskey / 40ml</p>
-                    </div>
-                    <div class="item-price">€3.50</div>
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">TË GJITHA</button>
+            <button class="filter-btn" data-filter="skara">SKARA</button>
+            <button class="filter-btn" data-filter="pule">PULA</button>
+            <button class="filter-btn" data-filter="sandwich">SANDWICH</button>
+            <button class="filter-btn" data-filter="pizza">PIZZA</button>
+            <button class="filter-btn" data-filter="gjelle">GJELLË</button>
+            <button class="filter-btn" data-filter="torte">TORTE</button>
+            <button class="filter-btn" data-filter="pije">PIJE</button>
+        </div>
+
+        <div class="menu-grid" id="menu-grid">
+            <!-- Skara -->
+            <div class="menu-card" data-category="skara">
+                <div class="menu-info">
+                    <h3>Kombinim Skare</h3>
+                    <span class="menu-price">€4.00</span>
                 </div>
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Jägermeister</h4>
-                        <p>Herbal Liqueur / Shot</p>
-                    </div>
-                    <div class="item-price">€2.50</div>
-                </div>
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Red Bull</h4>
-                        <p>Energy Drink</p>
-                    </div>
-                    <div class="item-price">€2.50</div>
-                </div>
+                <p class="menu-desc">Përzierje e mishit të zgjedhur në skarë.</p>
+                <span class="menu-tag">Popullore</span>
             </div>
 
-            <!-- Coffee -->
-            <div class="menu-category">
-                <h3>Kafetë</h3>
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Macchiato</h4>
-                        <p>Small / Large</p>
-                    </div>
-                    <div class="item-price">€0.50</div>
+            <div class="menu-card" data-category="skara">
+                <div class="menu-info">
+                    <h3>Mish Viqi Natyral</h3>
+                    <span class="menu-price">€5.00</span>
                 </div>
-                <div class="item-details">
-                    <div class="menu-item">
-                        <div class="item-details">
-                            <h4>Espresso</h4>
-                            <p>Italian Roast</p>
-                        </div>
-                        <div class="item-price">€0.50</div>
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Cappuccino</h4>
-                        <p>Classic Foam</p>
-                    </div>
-                    <div class="item-price">€0.50</div>
-                </div>
+                <p class="menu-desc">Mish viqi i freskët i pjekur në skarë.</p>
             </div>
 
-            <!-- Soft Drinks -->
-            <div class="menu-category">
-                <h3>Pijet e Ftohta</h3>
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Coca Cola / Fanta</h4>
-                        <p>0.33L</p>
-                    </div>
-                    <div class="item-price">€1.00</div>
+            <div class="menu-card" data-category="skara">
+                <div class="menu-info">
+                    <h3>Mish Viqi (1kg)</h3>
+                    <span class="menu-price">€25.00</span>
                 </div>
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Schweppes</h4>
-                        <p>Tonic / Bitter Lemon</p>
-                    </div>
-                    <div class="item-price">€1.00</div>
+                <p class="menu-desc">Mish viqi i zgjedhur me cilësi të lartë.</p>
+            </div>
+
+            <div class="menu-card" data-category="skara">
+                <div class="menu-info">
+                    <h3>Pleskavicë Sharri</h3>
+                    <span class="menu-price">€4.00</span>
                 </div>
-                <div class="menu-item">
-                    <div class="item-details">
-                        <h4>Ujë Natyral</h4>
-                        <p>Still / Sparkling</p>
-                    </div>
-                    <div class="item-price">€0.70</div>
+                <p class="menu-desc">Specialiteti ynë i veçantë me erëza tradicionale.</p>
+                <span class="menu-tag">Specialitet</span>
+            </div>
+
+            <div class="menu-card" data-category="skara">
+                <div class="menu-info">
+                    <h3>Qebapa</h3>
+                    <span class="menu-price">€0.50</span>
                 </div>
+                <p class="menu-desc">Qebapa tradicionale për copë.</p>
+            </div>
+
+            <!-- Pula -->
+            <div class="menu-card" data-category="pule">
+                <div class="menu-info">
+                    <h3>File Pule</h3>
+                    <span class="menu-price">€3.00</span>
+                </div>
+                <p class="menu-desc">File pule i butë dhe i shijshëm në skarë.</p>
+            </div>
+
+            <div class="menu-card" data-category="pule">
+                <div class="menu-info">
+                    <h3>Pulë Kompletë</h3>
+                    <span class="menu-price">€6.00</span>
+                </div>
+                <p class="menu-desc">Pulë e tërë e pjekur në mënyrë perfekte.</p>
+                <span class="menu-tag">Për Familje</span>
+            </div>
+
+            <!-- Sandwich -->
+            <div class="menu-card" data-category="sandwich">
+                <div class="menu-info">
+                    <h3>Hamburger + Pomfrit</h3>
+                    <span class="menu-price">€2.50</span>
+                </div>
+                <p class="menu-desc">Hamburger i shijshëm shoqëruar me patate.</p>
+            </div>
+
+            <div class="menu-card" data-category="sandwich">
+                <div class="menu-info">
+                    <h3>Sandwich Tuna</h3>
+                    <span class="menu-price">€2.00</span>
+                </div>
+                <p class="menu-desc">Sandwich i freskët me tunë dhe sallatë.</p>
+            </div>
+
+            <!-- Pizza -->
+            <div class="menu-card" data-category="pizza">
+                <div class="menu-info">
+                    <h3>Picë Familjare</h3>
+                    <span class="menu-price">€7.00</span>
+                </div>
+                <p class="menu-desc">Picë e madhe me përbërës të freskët.</p>
+                <span class="menu-tag">Për Familje</span>
+            </div>
+
+            <div class="menu-card" data-category="pizza">
+                <div class="menu-info">
+                    <h3>Picë e Mesme</h3>
+                    <span class="menu-price">€3.00</span>
+                </div>
+                <p class="menu-desc">Ideale për 1-2 persona.</p>
+            </div>
+
+            <!-- Gjelle -->
+            <div class="menu-card" data-category="gjelle">
+                <div class="menu-info">
+                    <h3>Gullash Tradicional</h3>
+                    <span class="menu-price">€2.50</span>
+                </div>
+                <p class="menu-desc">Gatuar sipas recetës së vjetër shtëpiake.</p>
+                <span class="menu-tag">Ditor</span>
+            </div>
+
+            <div class="menu-card" data-category="gjelle">
+                <div class="menu-info">
+                    <h3>Pasul</h3>
+                    <span class="menu-price">€2.50</span>
+                </div>
+                <p class="menu-desc">Pasul i gatuar me kujdes dhe dashuri.</p>
+                <span class="menu-tag">Ditor</span>
+            </div>
+
+            <!-- Torte -->
+            <div class="menu-card" data-category="torte">
+                <div class="menu-info">
+                    <h3>Cheese Cake</h3>
+                    <span class="menu-price">€1.50</span>
+                </div>
+                <p class="menu-desc">Krem djathi i freskët me fruta pylli.</p>
+            </div>
+
+            <div class="menu-card" data-category="torte">
+                <div class="menu-info">
+                    <h3>Torte Trileqe</h3>
+                    <span class="menu-price">€1.50</span>
+                </div>
+                <p class="menu-desc">Ëmbëlsira tradicionale me tre lloje qumështi.</p>
+            </div>
+
+            <div class="menu-card" data-category="torte">
+                <div class="menu-info">
+                    <h3>Torte Dubai</h3>
+                    <span class="menu-price">€1.50</span>
+                </div>
+                <p class="menu-desc">Shije ekzotike dhe aromatike.</p>
+            </div>
+
+            <!-- Pije -->
+            <div class="menu-card" data-category="pije">
+                <div class="menu-info">
+                    <h3>Coca-Cola / Fanta</h3>
+                    <span class="menu-price">€1.00</span>
+                </div>
+                <p class="menu-desc">Pije freskuese 0.33l.</p>
+            </div>
+
+            <div class="menu-card" data-category="pije">
+                <div class="menu-info">
+                    <h3>Lëng Fructal</h3>
+                    <span class="menu-price">€1.00</span>
+                </div>
+                <p class="menu-desc">Lëng frutash natyral.</p>
             </div>
         </div>
     </section>
 
     <footer id="contact">
         <div class="footer-grid">
-            <div class="footer-about">
-                <span class="logo footer-logo">KOMO<span>.</span></span>
-                <p>Një standard i ri i jetës së natës dhe relaksit në Komoran. Eksperiencë unike në çdo vizitë.</p>
-            </div>
-
-            <div class="footer-links">
-                <h5 class="footer-header">Partnerët</h5>
-                <ul style="list-style: none;">
-                    <li style="margin-bottom: 10px;"><a href="https://nukedbyunknown.github.io/Sharri-Resturant/" target="_blank" style="color: var(--secondary); text-decoration: none;">Sharri Restaurant</a></li>
-                    <li style="margin-bottom: 10px;"><a href="https://sharritech.github.io/Sharritech/index.html" target="_blank" style="color: var(--secondary); text-decoration: none;">SharriTech</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-contact">
-                <h5 class="footer-header">Lokacioni & Oraret</h5>
-                <div class="contact-info">
-                    <div><i class="fas fa-map-marker-alt"></i> Komoran, Rruga Nazmi Gashi</div>
-                    <div><i class="fas fa-phone"></i> 048 589 002</div>
-                    <div><i class="fas fa-clock"></i> Hën - Die: 06:00 - 23:00</div>
+            <div class="footer-col">
+                <h4>SHARRI</h4>
+                <p>Një vend ku shija dhe tradita bashkohen për t'ju ofruar një eksperiencë të paharrueshme.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/sharricenter" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/sharri_center/" target="_blank"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
+            <div class="footer-col">
+                <h4>LOKACIONI</h4>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--gold); margin-right: 10px;"></i> Komoran-Glogovc</p>
+                <p>Rruga Nazmi Gashi</p>
+                <p><i class="fas fa-phone" style="color: var(--gold); margin-right: 10px;"></i> 048 589 002</p>
+            </div>
+            <div class="footer-col">
+                <h4>ORARI</h4>
+                <p>E Hënë - E Diel</p>
+                <p>08:00 - 23:00</p>
+                <p style="margin-top: 10px; font-style: italic;">Ju mirëpresim!</p>
+            </div>
         </div>
-
         <div class="copyright">
-            &copy; 2026 KOMO LOUNGE BAR. TË GJITHA TË DREJTAT TË REZERVUARA.
+            &copy; 2025 SHARRI RESTAURANT. DESIGNED FOR EXCELLENCE.
         </div>
     </footer>
 
     <script>
-        // Preloader removal
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                setTimeout(() => preloader.style.display = 'none', 1000);
-            }, 1000);
-        });
-
-        // Navbar scroll effect
+        // Header Scroll Effect
+        const header = document.getElementById('main-header');
         window.addEventListener('scroll', () => {
-            const nav = document.getElementById('main-nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('scrolled');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
             } else {
-                nav.classList.remove('scrolled');
+                header.classList.remove('scrolled');
             }
         });
 
-        // Smooth scroll for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+        // Menu Filtering Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const menuCards = document.querySelectorAll('.menu-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                menuCards.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.classList.remove('hidden');
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 50);
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    }, 300);
+                });
             });
+        });
+
+        // Mobile Menu Toggle (Simplified)
+        const toggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('.nav-links');
+        
+        toggle.addEventListener('click', () => {
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+            if(nav.style.display === 'flex') {
+                nav.style.flexDirection = 'column';
+                nav.style.position = 'absolute';
+                nav.style.top = '100%';
+                nav.style.left = '0';
+                nav.style.width = '100%';
+                nav.style.background = 'var(--black)';
+                nav.style.padding = '2rem';
+                nav.style.textAlign = 'center';
+            }
         });
     </script>
 </body>
